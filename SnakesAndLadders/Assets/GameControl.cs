@@ -53,8 +53,6 @@ public class GameControl : MonoBehaviour {
                 player1StartWaypoint = snakeTo[isSnake.IndexOf(player1.GetComponent<FollowThePath>().waypointIndex)];
                 player1.GetComponent<FollowThePath>().waypointIndex = snakeTo[isSnake.IndexOf(player1.GetComponent<FollowThePath>().waypointIndex)];
                 diceSideThrown = 0;
-
-                
             }
             else
             {
@@ -62,7 +60,8 @@ public class GameControl : MonoBehaviour {
                 player1.GetComponent<FollowThePath>().moveAllowed = false;
                 player1MoveText.gameObject.SetActive(false);
                 player2MoveText.gameObject.SetActive(true);
-                
+                save();
+
             }
 
             
@@ -84,6 +83,7 @@ public class GameControl : MonoBehaviour {
                 player2.GetComponent<FollowThePath>().moveAllowed = false;
                 player2MoveText.gameObject.SetActive(false);
                 player1MoveText.gameObject.SetActive(true);
+                save();
             }
         }
 
@@ -94,7 +94,8 @@ public class GameControl : MonoBehaviour {
             whoWinsTextShadow.gameObject.SetActive(true);
             whoWinsTextShadow.GetComponent<Text>().text = "YOU WIN!";
             gameOver = true;
-            
+            save();
+
         }
 
         if (player2.GetComponent<FollowThePath>().waypointIndex ==
@@ -105,7 +106,8 @@ public class GameControl : MonoBehaviour {
             player2MoveText.gameObject.SetActive(false);
             whoWinsTextShadow.GetComponent<Text>().text = "Furhat Wins";
             gameOver = true;
-            
+            save();
+
         }
     }
 
@@ -130,7 +132,7 @@ public class GameControl : MonoBehaviour {
         StringBuilder sbOutput = new StringBuilder();
 
         
-        sbOutput.AppendLine(string.Join(strSeperator,Time.time.ToString("f6"),player1StartWaypoint, "data"));
+        sbOutput.AppendLine(string.Join(strSeperator, Time.time.ToString("f6"), player1StartWaypoint, player2StartWaypoint, (-1)*Dice.whosTurn, diceSideThrown));
         //Time.time.ToString("f6")
         
         // Create and write the csv file

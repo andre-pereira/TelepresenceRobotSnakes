@@ -5,7 +5,7 @@ public class Dice : MonoBehaviour {
 
     private Sprite[] diceSides;
     private SpriteRenderer rend;
-    private int whosTurn = 1;
+    public static int whosTurn = 1;
     private bool coroutineAllowed = true;
 
 	// Use this for initialization
@@ -25,7 +25,7 @@ public class Dice : MonoBehaviour {
     {
         coroutineAllowed = false;
         int randomDiceSide = 0;
-        for (int i = 0; i <= 20; i++)
+        for (int i = 0; i <= 15; i++)
         {
             randomDiceSide = Random.Range(0, 6);
             rend.sprite = diceSides[randomDiceSide];
