@@ -2,6 +2,11 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using System.IO;
+using System.Text;
+
+
 
 public class GameControl : MonoBehaviour {
 
@@ -13,8 +18,8 @@ public class GameControl : MonoBehaviour {
     public static int player1StartWaypoint = 0;
     public static int player2StartWaypoint = 0;
     //public static int[] isSnake = {5, 6, 7, 8, 9, 10, 11, 12};
-    public static List<int> isSnake = new List<int>() { 5, 10, 15, 20, 25, 30, 4, 6};
-    public static List<int> snakeTo = new List<int>() { 0, 1, 2, 3, 4, 6, 13, 22};
+    public static List<int> isSnake = new List<int>() { 13, 20, 26, 34, 42, 44, 52, 54, 64, 80, 83, 86, 88, 90, 95, 99, 3, 12, 24, 58, 67, 22, 51};
+    public static List<int> snakeTo = new List<int>() { 6, 1, 4, 27, 37, 22, 10, 45, 42, 58, 64, 73, 47, 71, 86, 62, 17, 31, 44, 83, 75, 39, 69};
     public static bool gameOver = false;
 
     // Use this for initialization
@@ -37,7 +42,8 @@ public class GameControl : MonoBehaviour {
 
     // Update is called once per frame
     void Update()
-    {   
+    {
+        //save();
         // NORMAL MOVE CONDITIONS
         if (player1.GetComponent<FollowThePath>().waypointIndex > 
             player1StartWaypoint + diceSideThrown)
@@ -47,6 +53,8 @@ public class GameControl : MonoBehaviour {
                 player1StartWaypoint = snakeTo[isSnake.IndexOf(player1.GetComponent<FollowThePath>().waypointIndex)];
                 player1.GetComponent<FollowThePath>().waypointIndex = snakeTo[isSnake.IndexOf(player1.GetComponent<FollowThePath>().waypointIndex)];
                 diceSideThrown = 0;
+
+                
             }
             else
             {
@@ -54,6 +62,7 @@ public class GameControl : MonoBehaviour {
                 player1.GetComponent<FollowThePath>().moveAllowed = false;
                 player1MoveText.gameObject.SetActive(false);
                 player2MoveText.gameObject.SetActive(true);
+                
             }
 
             
@@ -83,8 +92,9 @@ public class GameControl : MonoBehaviour {
             player1.GetComponent<FollowThePath>().waypoints.Length)
         {
             whoWinsTextShadow.gameObject.SetActive(true);
-            whoWinsTextShadow.GetComponent<Text>().text = "Player 1 Wins";
+            whoWinsTextShadow.GetComponent<Text>().text = "YOU WIN!";
             gameOver = true;
+            
         }
 
         if (player2.GetComponent<FollowThePath>().waypointIndex ==
@@ -93,8 +103,9 @@ public class GameControl : MonoBehaviour {
             whoWinsTextShadow.gameObject.SetActive(true);
             player1MoveText.gameObject.SetActive(false);
             player2MoveText.gameObject.SetActive(false);
-            whoWinsTextShadow.GetComponent<Text>().text = "Player 2 Wins";
+            whoWinsTextShadow.GetComponent<Text>().text = "Furhat Wins";
             gameOver = true;
+            
         }
     }
 
@@ -109,5 +120,23 @@ public class GameControl : MonoBehaviour {
                 player2.GetComponent<FollowThePath>().moveAllowed = true;
                 break;
         }
+    }
+
+    public static void save()
+    {
+
+        string strFilePath = @"C:\Users\ilian\Unity_Projects\saved_data\Data.csv";
+        string strSeperator = ",";
+        StringBuilder sbOutput = new StringBuilder();
+
+        
+        sbOutput.AppendLine(string.Join(strSeperator,Time.time.ToString("f6"),player1StartWaypoint, "data"));
+        //Time.time.ToString("f6")
+        
+        // Create and write the csv file
+        //File.WriteAllText(strFilePath, sbOutput.ToString());
+
+        // To append more lines to the csv file
+        File.AppendAllText(strFilePath, sbOutput.ToString());
     }
 }
