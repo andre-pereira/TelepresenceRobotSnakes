@@ -17,14 +17,19 @@ public class GameControl : MonoBehaviour {
     public static int diceSideThrown = 0;
     public static int player1StartWaypoint = 0;
     public static int player2StartWaypoint = 0;
+    public static bool gameOver = false;
     //public static int[] isSnake = {5, 6, 7, 8, 9, 10, 11, 12};
     public static List<int> isSnake = new List<int>() { 13, 20, 26, 34, 42, 44, 52, 54, 64, 80, 83, 86, 88, 90, 95, 99, 3, 12, 24, 58, 67, 22, 51};
     public static List<int> snakeTo = new List<int>() { 6, 1, 4, 27, 37, 22, 10, 45, 42, 58, 64, 73, 47, 71, 86, 62, 17, 31, 44, 83, 75, 39, 69};
-    public static bool gameOver = false;
+    
 
     // Use this for initialization
     void Start () {
-
+        diceSideThrown = 0;
+        player1StartWaypoint = 0;
+        player2StartWaypoint = 0;
+        gameOver = false;
+        Dice.whosTurn = 1;
         whoWinsTextShadow = GameObject.Find("WhoWinsText");
         player1MoveText = GameObject.Find("Player1MoveText");
         player2MoveText = GameObject.Find("Player2MoveText");
@@ -45,6 +50,7 @@ public class GameControl : MonoBehaviour {
     {
         //save();
         // NORMAL MOVE CONDITIONS
+        // BOB
         if (player1.GetComponent<FollowThePath>().waypointIndex > 
             player1StartWaypoint + diceSideThrown)
         {
@@ -56,18 +62,16 @@ public class GameControl : MonoBehaviour {
             }
             else
             {
-                player1StartWaypoint = player1.GetComponent<FollowThePath>().waypointIndex - 1;
                 player1.GetComponent<FollowThePath>().moveAllowed = false;
+                player1StartWaypoint = player1.GetComponent<FollowThePath>().waypointIndex - 1;
                 player1MoveText.gameObject.SetActive(false);
                 player2MoveText.gameObject.SetActive(true);
-                save();
+
 
             }
-
-            
-
-
         }
+
+        // FURHAT
         if (player2.GetComponent<FollowThePath>().waypointIndex >
             player2StartWaypoint + diceSideThrown)
         {
@@ -79,11 +83,11 @@ public class GameControl : MonoBehaviour {
             }
             else
             {
-                player2StartWaypoint = player2.GetComponent<FollowThePath>().waypointIndex - 1;
                 player2.GetComponent<FollowThePath>().moveAllowed = false;
+                player2StartWaypoint = player2.GetComponent<FollowThePath>().waypointIndex - 1;
                 player2MoveText.gameObject.SetActive(false);
                 player1MoveText.gameObject.SetActive(true);
-                save();
+
             }
         }
 
@@ -94,7 +98,6 @@ public class GameControl : MonoBehaviour {
             whoWinsTextShadow.gameObject.SetActive(true);
             whoWinsTextShadow.GetComponent<Text>().text = "YOU WIN!";
             gameOver = true;
-            save();
 
         }
 
@@ -106,7 +109,6 @@ public class GameControl : MonoBehaviour {
             player2MoveText.gameObject.SetActive(false);
             whoWinsTextShadow.GetComponent<Text>().text = "Furhat Wins";
             gameOver = true;
-            save();
 
         }
     }
