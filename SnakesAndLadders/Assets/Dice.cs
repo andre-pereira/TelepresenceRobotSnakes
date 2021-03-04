@@ -9,6 +9,7 @@ public class Dice : MonoBehaviour {
     public static int whosTurn = 1;
     private bool coroutineAllowed = true;
     public static DatabaseReference reference;
+    
     // Use this for initialization
     private void Start () {
         rend = GetComponent<SpriteRenderer>();
@@ -29,10 +30,8 @@ public class Dice : MonoBehaviour {
             return;
         }
         
-        Debug.Log(args.Snapshot.Child("Pressed").Value);
-        
         if (args.Snapshot.Child("Pressed").Value.ToString() == "true" && coroutineAllowed && whosTurn == -1)
-        {
+        {   
             saveTrigger();
             StartCoroutine("RollTheDice");
         }

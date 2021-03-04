@@ -5,6 +5,8 @@ using TCPFurhatComm;
 using UnityEngine;
 using UnityEngine.XR;
 using static OVRLipSync;
+using Firebase;
+using Firebase.Database;
 
 public class Furhat : MonoBehaviour
 {
@@ -27,10 +29,13 @@ public class Furhat : MonoBehaviour
     public float GazeEuclideanThreshold = 0;
     public double lipSynchParamThreshold = 0;
 
+    public static DatabaseReference reference;
+
     // Start is called before the first frame update
     void Start()
     {
         furhat = new FurhatInterface(FurhatIPAddress, nameForSkill: "CSharp Example");
+        reference = FirebaseDatabase.DefaultInstance.RootReference;
     }
 
     // Update is called once per frame
@@ -42,6 +47,28 @@ public class Furhat : MonoBehaviour
         processLipSyncFrame(frame);
     }
 
+    public static void saveGaze(float Gaze_x, float Gaze_y, float Gaze_z)
+    {
+        Dictionary<string, object> childUpdates = new Dictionary<string, object>();
+        childUpdates["/GameState/Gaze_x"] = Gaze_x;
+        childUpdates["/GameState/Gaze_y"] = Gaze_y;
+        childUpdates["/GameState/Gaze_z"] = Gaze_z;
+        reference.UpdateChildrenAsync(childUpdates);
+    }
+    public static void saveGazeRoll(float Gaze_roll)
+    {
+        Dictionary<string, object> childUpdates = new Dictionary<string, object>();
+        childUpdates["/GameState/Gaze_roll"] = Gaze_roll;
+        reference.UpdateChildrenAsync(childUpdates);
+    }
+    public static void savePhone(int Phone, float PhoneIntensity)
+    {
+        Dictionary<string, object> childUpdates = new Dictionary<string, object>();
+        childUpdates["/GameState/Phone"] = Phone;
+        childUpdates["/GameState/PhoneIntensity"] = PhoneIntensity;
+        reference.UpdateChildrenAsync(childUpdates);
+    }
+
     private void Gaze(float x, float y, float z)
     {
         if (Vector3.Distance(position, new Vector3(x, y, z)) > GazeEuclideanThreshold)
@@ -49,6 +76,7 @@ public class Furhat : MonoBehaviour
             numberOfCommandsSent++;
             furhat.Gaze(x, y, z);
             position = new Vector3(x, y, z);
+            saveGaze(x, y, z);
         }
     }
 
@@ -59,6 +87,7 @@ public class Furhat : MonoBehaviour
             numberOfCommandsSent++;
             furhat.SetGazeRoll(v);
             roll = v;
+            saveGazeRoll(roll);
         }
     }
 
@@ -97,6 +126,7 @@ public class Furhat : MonoBehaviour
             else if (paramNumber == 12) ChangeParameter(PARAMS.PHONE_I, 1, intensity);
             else if (paramNumber == 14) ChangeParameter(PARAMS.PHONE_OH, 1, intensity);
             else if (paramNumber == 15) ChangeParameter(PARAMS.PHONE_OOH_Q, 1, intensity);
+            savePhone(paramNumber, intensity);
         }
     }
 

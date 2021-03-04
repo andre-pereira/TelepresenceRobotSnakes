@@ -15,7 +15,7 @@ public class GameControl : MonoBehaviour {
     private static GameObject whoWinsTextShadow, player1MoveText, player2MoveText;
 
     private static GameObject player1, player2;
-
+    public static float turnTime;
     public static int diceSideThrown = 0;
     public static int player1StartWaypoint = 0;
     public static int player2StartWaypoint = 0;
@@ -32,6 +32,7 @@ public class GameControl : MonoBehaviour {
         player2StartWaypoint = 0;
         gameOver = false;
         Dice.whosTurn = 1;
+        turnTime = Time.time;
         whoWinsTextShadow = GameObject.Find("WhoWinsText");
         player1MoveText = GameObject.Find("Player1MoveText");
         player2MoveText = GameObject.Find("Player2MoveText");
@@ -64,10 +65,11 @@ public class GameControl : MonoBehaviour {
         //reference.Child("GameState").Child("ifLadder").SetValueAsync("PLACEHOLDER");
 
         Dictionary<string, object> childUpdates = new Dictionary<string, object>();
-        childUpdates["/GameState/UniversalTime"] = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff");
-        childUpdates["/GameState/EntireGameTime"] = Time.time.ToString("f6");
-        childUpdates["/GameState/TurnTime"] = "PLACEHOLDER";
-        childUpdates["/GameState/WhosTurn"] = (-1) * Dice.whosTurn;
+        childUpdates["/GameState/Date"] = DateTime.Now.ToString("yyyy-MM-dd");
+        childUpdates["/GameState/UniversalTime"] = DateTime.Now.ToString("HH:mm:ss:fff");
+        childUpdates["/GameState/EntireGameTime"] = Time.time.ToString("f5");
+        childUpdates["/GameState/TurnTime"] = Time.time - turnTime;
+        childUpdates["/GameState/WhosTurn"] = Dice.whosTurn;
         if (DiceValue)
         {
             childUpdates["/GameState/DiceValue"] = diceSideThrown;
@@ -93,6 +95,15 @@ public class GameControl : MonoBehaviour {
             
             if (isSnake.Contains(player1.GetComponent<FollowThePath>().waypointIndex))
             {
+                int delta = snakeTo[isSnake.IndexOf(player1.GetComponent<FollowThePath>().waypointIndex)] - (isSnake[isSnake.IndexOf(player1.GetComponent<FollowThePath>().waypointIndex)] - 1);
+                if (delta < 0)
+                {
+                    saveGameState(false, delta, 0);
+                }
+                else
+                {
+                    saveGameState(false, 0, delta);
+                }
                 Thread.Sleep(500);
                 player1StartWaypoint = snakeTo[isSnake.IndexOf(player1.GetComponent<FollowThePath>().waypointIndex)];
                 player1.GetComponent<FollowThePath>().waypointIndex = snakeTo[isSnake.IndexOf(player1.GetComponent<FollowThePath>().waypointIndex)];
@@ -105,6 +116,7 @@ public class GameControl : MonoBehaviour {
                 if (player1.GetComponent<FollowThePath>().moveAllowed)
                 {
                     saveGameState();
+                    turnTime = Time.time;
                 }
                 player1.GetComponent<FollowThePath>().moveAllowed = false;
                 player1MoveText.gameObject.SetActive(false);
@@ -119,6 +131,15 @@ public class GameControl : MonoBehaviour {
         {
             if (isSnake.Contains(player2.GetComponent<FollowThePath>().waypointIndex))
             {
+                int delta = snakeTo[isSnake.IndexOf(player2.GetComponent<FollowThePath>().waypointIndex)] - (isSnake[isSnake.IndexOf(player2.GetComponent<FollowThePath>().waypointIndex)] - 1);
+                if (delta < 0)
+                {
+                    saveGameState(false, delta, 0);
+                }
+                else
+                {
+                    saveGameState(false, 0, delta);
+                }
                 Thread.Sleep(500);
                 player2StartWaypoint = snakeTo[isSnake.IndexOf(player2.GetComponent<FollowThePath>().waypointIndex)];
                 player2.GetComponent<FollowThePath>().waypointIndex = snakeTo[isSnake.IndexOf(player2.GetComponent<FollowThePath>().waypointIndex)];
@@ -130,6 +151,7 @@ public class GameControl : MonoBehaviour {
                 if (player2.GetComponent<FollowThePath>().moveAllowed)
                 {
                     saveGameState();
+                    turnTime = Time.time;
                 }
                 player2.GetComponent<FollowThePath>().moveAllowed = false;
                 player2MoveText.gameObject.SetActive(false);
