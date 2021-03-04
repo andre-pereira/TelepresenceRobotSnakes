@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "270409810534",
+    "firebase_url": "https://furhat-7b7d7-default-rtdb.firebaseio.com",
+    "project_id": "furhat-7b7d7",
+    "storage_bucket": "furhat-7b7d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:270409810534:android:8d9d83383df312327ce3a7",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.SnakesAndLadders"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "270409810534-kskfjt15c094c42vps252faikqftvo1k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMP97KBt1q9DXzuJSGGgGy9E29DRVMSxg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "270409810534-kskfjt15c094c42vps252faikqftvo1k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
