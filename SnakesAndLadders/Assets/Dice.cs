@@ -59,13 +59,15 @@ public class Dice : MonoBehaviour {
         }
 
         GameControl.diceSideThrown = randomDiceSide + 1;
-        GameControl.saveGameState(true);
+        
       
         if (whosTurn == 1)
         {
+            GameControl.saveGameState(1, true);
             GameControl.MovePlayer(1);
         } else if (whosTurn == -1)
         {
+            GameControl.saveGameState(0, true);
             GameControl.MovePlayer(2);
         }
         whosTurn *= -1;

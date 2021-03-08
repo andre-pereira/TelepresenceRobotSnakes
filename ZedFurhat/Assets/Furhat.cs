@@ -76,7 +76,7 @@ public class Furhat : MonoBehaviour
             numberOfCommandsSent++;
             furhat.Gaze(x, y, z);
             position = new Vector3(x, y, z);
-            saveGaze(x, y, z);
+            //saveGaze(x, y, z);
         }
     }
 
@@ -87,7 +87,7 @@ public class Furhat : MonoBehaviour
             numberOfCommandsSent++;
             furhat.SetGazeRoll(v);
             roll = v;
-            saveGazeRoll(roll);
+            //saveGazeRoll(roll);
         }
     }
 
@@ -126,14 +126,14 @@ public class Furhat : MonoBehaviour
             else if (paramNumber == 12) ChangeParameter(PARAMS.PHONE_I, 1, intensity);
             else if (paramNumber == 14) ChangeParameter(PARAMS.PHONE_OH, 1, intensity);
             else if (paramNumber == 15) ChangeParameter(PARAMS.PHONE_OOH_Q, 1, intensity);
-            savePhone(paramNumber, intensity);
+            //savePhone(paramNumber, intensity);
         }
     }
 
     private void ChangeParameter(PARAMS phoneme, int number, float intensity)
     {
         numberOfCommandsSent++;
-        Debug.Log("Changing " + phoneme + " with number " + number + "and intensity " + intensity);
+        //Debug.Log("Changing " + phoneme + " with number " + number + "and intensity " + intensity);
         furhat.ChangeParameter(phoneme, 0.05f, intensity);
     }
 

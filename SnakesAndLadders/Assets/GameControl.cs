@@ -52,7 +52,7 @@ public class GameControl : MonoBehaviour {
     }
 
 
-    public static void saveGameState(bool DiceValue=false, int ifSnake=0, int ifLadder=0)
+    public static void saveGameState(int turn, bool DiceValue=false, int ifSnake=0, int ifLadder=0)
     {
         //reference.Child("GameState").Child("UniversalTime").SetValueAsync(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
         //reference.Child("GameState").Child("EntireGameTime").SetValueAsync(Time.time.ToString("f6"));
@@ -69,7 +69,7 @@ public class GameControl : MonoBehaviour {
         childUpdates["/GameState/UniversalTime"] = DateTime.Now.ToString("HH:mm:ss:fff");
         childUpdates["/GameState/EntireGameTime"] = Time.time.ToString("f5");
         childUpdates["/GameState/TurnTime"] = Time.time - turnTime;
-        childUpdates["/GameState/WhosTurn"] = Dice.whosTurn;
+        childUpdates["/GameState/WhosTurn"] = turn; // 1 == Human, 0 == Furhat
         if (DiceValue)
         {
             childUpdates["/GameState/DiceValue"] = diceSideThrown;
@@ -98,11 +98,11 @@ public class GameControl : MonoBehaviour {
                 int delta = snakeTo[isSnake.IndexOf(player1.GetComponent<FollowThePath>().waypointIndex)] - (isSnake[isSnake.IndexOf(player1.GetComponent<FollowThePath>().waypointIndex)] - 1);
                 if (delta < 0)
                 {
-                    saveGameState(false, delta, 0);
+                    saveGameState(1, false, delta, 0);
                 }
                 else
                 {
-                    saveGameState(false, 0, delta);
+                    saveGameState(1, false, 0, delta);
                 }
                 Thread.Sleep(500);
                 player1StartWaypoint = snakeTo[isSnake.IndexOf(player1.GetComponent<FollowThePath>().waypointIndex)];
@@ -115,7 +115,7 @@ public class GameControl : MonoBehaviour {
                 player1StartWaypoint = player1.GetComponent<FollowThePath>().waypointIndex - 1;
                 if (player1.GetComponent<FollowThePath>().moveAllowed)
                 {
-                    saveGameState();
+                    saveGameState(1);
                     turnTime = Time.time;
                 }
                 player1.GetComponent<FollowThePath>().moveAllowed = false;
@@ -134,11 +134,11 @@ public class GameControl : MonoBehaviour {
                 int delta = snakeTo[isSnake.IndexOf(player2.GetComponent<FollowThePath>().waypointIndex)] - (isSnake[isSnake.IndexOf(player2.GetComponent<FollowThePath>().waypointIndex)] - 1);
                 if (delta < 0)
                 {
-                    saveGameState(false, delta, 0);
+                    saveGameState(0, false, delta, 0);
                 }
                 else
                 {
-                    saveGameState(false, 0, delta);
+                    saveGameState(0, false, 0, delta);
                 }
                 Thread.Sleep(500);
                 player2StartWaypoint = snakeTo[isSnake.IndexOf(player2.GetComponent<FollowThePath>().waypointIndex)];
@@ -150,7 +150,7 @@ public class GameControl : MonoBehaviour {
                 player2StartWaypoint = player2.GetComponent<FollowThePath>().waypointIndex - 1;
                 if (player2.GetComponent<FollowThePath>().moveAllowed)
                 {
-                    saveGameState();
+                    saveGameState(0);
                     turnTime = Time.time;
                 }
                 player2.GetComponent<FollowThePath>().moveAllowed = false;
@@ -166,7 +166,7 @@ public class GameControl : MonoBehaviour {
         {
             whoWinsTextShadow.gameObject.SetActive(true);
             whoWinsTextShadow.GetComponent<Text>().text = "YOU WIN!";
-            
+            saveGameState(1);
             gameOver = true;
 
         }
@@ -178,7 +178,7 @@ public class GameControl : MonoBehaviour {
             player1MoveText.gameObject.SetActive(false);
             player2MoveText.gameObject.SetActive(false);
             whoWinsTextShadow.GetComponent<Text>().text = "Furhat Wins";
-            
+            saveGameState(0);
             gameOver = true;
 
         }

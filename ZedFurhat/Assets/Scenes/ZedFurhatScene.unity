@@ -2621,7 +2621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lipSyncContext: {fileID: 1027195888}
-  FurhatIPAddress: 192.168.0.106
+  FurhatIPAddress: 192.168.0.101
   ballPosition: {fileID: 555041012}
   zedCamera: {fileID: 627407102}
   lipSyncAnimationPoints:
