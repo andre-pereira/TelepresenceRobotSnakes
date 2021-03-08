@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using TCPFurhatComm;
@@ -29,13 +31,38 @@ public class Furhat : MonoBehaviour
     public float GazeEuclideanThreshold = 0;
     public double lipSynchParamThreshold = 0;
 
+    public static string strFilePath;
     public static DatabaseReference reference;
+    public static int Entry;
+    public static string strSeperator;
+    public static float time;
+    public static float Gaze_x;
+    public static float Gaze_y;
+    public static float Gaze_z;
+    public static float Gaze_roll;
+    public static int Phone;
+    public static float Intensity;
+
 
     // Start is called before the first frame update
     void Start()
     {
         furhat = new FurhatInterface(FurhatIPAddress, nameForSkill: "CSharp Example");
         reference = FirebaseDatabase.DefaultInstance.RootReference;
+        strSeperator = ",";
+        Entry = 0;
+        Gaze_x = 0;
+        Gaze_y = 0;
+        Gaze_z = 0;
+        Gaze_roll = 0;
+        Phone = 0;
+        Intensity = 0;
+
+        strFilePath = @"C:\Users\ilian\Unity_Projects\saved_data\GazePhoneLogs_" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm") + ".csv";
+        reference = FirebaseDatabase.DefaultInstance.RootReference;
+        FirebaseDatabase.DefaultInstance
+        .GetReference("GameState/StartTime")
+        .ValueChanged += HandleValueChanged;
     }
 
     // Update is called once per frame
@@ -47,27 +74,57 @@ public class Furhat : MonoBehaviour
         processLipSyncFrame(frame);
     }
 
-    public static void saveGaze(float Gaze_x, float Gaze_y, float Gaze_z)
+
+    // Called when field in Firebase is altered
+    void HandleValueChanged(object sender, ValueChangedEventArgs args)
     {
-        Dictionary<string, object> childUpdates = new Dictionary<string, object>();
-        childUpdates["/GameState/Gaze_x"] = Gaze_x;
-        childUpdates["/GameState/Gaze_y"] = Gaze_y;
-        childUpdates["/GameState/Gaze_z"] = Gaze_z;
-        reference.UpdateChildrenAsync(childUpdates);
+        if (args.DatabaseError != null)
+        {
+            Debug.LogError(args.DatabaseError.Message);
+            return;
+        }
+        Entry++;
+
+        // Create and write the csv file
+        if (Entry == 2)
+        {
+            Debug.Log("Generating Headings");
+            time = Time.time;
+            File.WriteAllText(strFilePath, string.Join(strSeperator,
+                                                        "StartTime",
+                                                        args.Snapshot.Value + "\n"));
+            File.AppendAllText(strFilePath, string.Join(strSeperator,
+                                                        "Time",
+                                                        "Gaze_x",
+                                                        "Gaze_y",
+                                                        "Gaze_z",
+                                                        "Gaze_roll",
+                                                        "Phone",
+                                                        "Intensity" + "\n"));
+            Entry++;
+        }
+
+
+
     }
-    public static void saveGazeRoll(float Gaze_roll)
+
+
+    public static void saveGazePhone()
     {
-        Dictionary<string, object> childUpdates = new Dictionary<string, object>();
-        childUpdates["/GameState/Gaze_roll"] = Gaze_roll;
-        reference.UpdateChildrenAsync(childUpdates);
+        print(Entry);
+        if (Entry > 2)
+        {
+            File.AppendAllText(strFilePath, string.Join(strSeperator,
+                                                    (Time.time - time).ToString(),
+                                                    Gaze_x.ToString(),
+                                                    Gaze_y.ToString(),
+                                                    Gaze_z.ToString(),
+                                                    Gaze_roll.ToString(),
+                                                    Phone.ToString(),
+                                                    Intensity.ToString() + "\n"));
+        }
     }
-    public static void savePhone(int Phone, float PhoneIntensity)
-    {
-        Dictionary<string, object> childUpdates = new Dictionary<string, object>();
-        childUpdates["/GameState/Phone"] = Phone;
-        childUpdates["/GameState/PhoneIntensity"] = PhoneIntensity;
-        reference.UpdateChildrenAsync(childUpdates);
-    }
+
 
     private void Gaze(float x, float y, float z)
     {
@@ -76,7 +133,11 @@ public class Furhat : MonoBehaviour
             numberOfCommandsSent++;
             furhat.Gaze(x, y, z);
             position = new Vector3(x, y, z);
-            //saveGaze(x, y, z);
+            Gaze_x = x;
+            Gaze_y = y;
+            Gaze_z = z;
+
+            saveGazePhone();
         }
     }
 
@@ -87,7 +148,8 @@ public class Furhat : MonoBehaviour
             numberOfCommandsSent++;
             furhat.SetGazeRoll(v);
             roll = v;
-            //saveGazeRoll(roll);
+            Gaze_roll = roll;
+            saveGazePhone();
         }
     }
 
@@ -126,7 +188,9 @@ public class Furhat : MonoBehaviour
             else if (paramNumber == 12) ChangeParameter(PARAMS.PHONE_I, 1, intensity);
             else if (paramNumber == 14) ChangeParameter(PARAMS.PHONE_OH, 1, intensity);
             else if (paramNumber == 15) ChangeParameter(PARAMS.PHONE_OOH_Q, 1, intensity);
-            //savePhone(paramNumber, intensity);
+            Phone = paramNumber;
+            Intensity = intensity;
+            saveGazePhone();
         }
     }
 

@@ -21,7 +21,7 @@ public class LogGame : MonoBehaviour
     {
         strSeperator = ",";
         firstEntry = true;
-        strFilePath = @"C:\Users\ilian\Unity_Projects\saved_data\RecordingLogs_" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm") + ".csv";
+        strFilePath = @"C:\Users\ilian\Unity_Projects\saved_data\GameStateLogs_" + DateTime.Now.ToString("yyyy-MM-dd-HH-mm") + ".csv";
         reference = FirebaseDatabase.DefaultInstance.RootReference;
         FirebaseDatabase.DefaultInstance
         .GetReference("GameState")
