@@ -32,7 +32,7 @@ public class Quit : MonoBehaviour
 
     public void ExitGame()
     {   
-        saveGameState(2);
+        saveGameState();
         Beep(4000, 500);
         #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;

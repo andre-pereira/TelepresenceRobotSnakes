@@ -48,22 +48,12 @@ public class GameControl : MonoBehaviour {
         player2MoveText.gameObject.SetActive(false);
 
         reference = FirebaseDatabase.DefaultInstance.RootReference;
-        saveGameState(true);
+        saveGameState(1, true);
     }
 
 
     public static void saveGameState(int turn, bool DiceValue=false, int ifSnake=0, int ifLadder=0)
     {
-        //reference.Child("GameState").Child("UniversalTime").SetValueAsync(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:fff"));
-        //reference.Child("GameState").Child("EntireGameTime").SetValueAsync(Time.time.ToString("f6"));
-        //reference.Child("GameState").Child("TurnTime").SetValueAsync("PLACEHOLDER");
-        //reference.Child("GameState").Child("WhosTurn").SetValueAsync((-1) * Dice.whosTurn);
-        //reference.Child("GameState").Child("DiceValue").SetValueAsync(diceSideThrown);
-        //reference.Child("GameState").Child("Human").SetValueAsync(player1StartWaypoint);
-        //reference.Child("GameState").Child("Furhat").SetValueAsync(player2StartWaypoint);
-        //reference.Child("GameState").Child("ifSnake").SetValueAsync("PLACEHOLDER");
-        //reference.Child("GameState").Child("ifLadder").SetValueAsync("PLACEHOLDER");
-
         Dictionary<string, object> childUpdates = new Dictionary<string, object>();
         childUpdates["/GameState/Date"] = DateTime.Now.ToString("yyyy-MM-dd");
         childUpdates["/GameState/UniversalTime"] = DateTime.Now.ToString("HH:mm:ss:fff");
@@ -98,10 +88,12 @@ public class GameControl : MonoBehaviour {
                 int delta = snakeTo[isSnake.IndexOf(player1.GetComponent<FollowThePath>().waypointIndex)] - (isSnake[isSnake.IndexOf(player1.GetComponent<FollowThePath>().waypointIndex)] - 1);
                 if (delta < 0)
                 {
+                    player1StartWaypoint = player1.GetComponent<FollowThePath>().waypointIndex - 1;
                     saveGameState(1, false, delta, 0);
                 }
                 else
                 {
+                    player1StartWaypoint = player1.GetComponent<FollowThePath>().waypointIndex - 1;
                     saveGameState(1, false, 0, delta);
                 }
                 Thread.Sleep(500);
@@ -134,10 +126,12 @@ public class GameControl : MonoBehaviour {
                 int delta = snakeTo[isSnake.IndexOf(player2.GetComponent<FollowThePath>().waypointIndex)] - (isSnake[isSnake.IndexOf(player2.GetComponent<FollowThePath>().waypointIndex)] - 1);
                 if (delta < 0)
                 {
+                    player2StartWaypoint = player2.GetComponent<FollowThePath>().waypointIndex - 1;
                     saveGameState(0, false, delta, 0);
                 }
                 else
                 {
+                    player2StartWaypoint = player2.GetComponent<FollowThePath>().waypointIndex - 1;
                     saveGameState(0, false, 0, delta);
                 }
                 Thread.Sleep(500);
