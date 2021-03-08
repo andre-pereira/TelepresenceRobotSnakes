@@ -57,7 +57,7 @@ public class GameControl : MonoBehaviour {
         Dictionary<string, object> childUpdates = new Dictionary<string, object>();
         childUpdates["/GameState/Date"] = DateTime.Now.ToString("yyyy-MM-dd");
         childUpdates["/GameState/UniversalTime"] = DateTime.Now.ToString("HH:mm:ss:fff");
-        childUpdates["/GameState/EntireGameTime"] = Time.time.ToString("f5");
+        childUpdates["/GameState/EntireGameTime"] = Time.time - StartGameBottom.startTime;
         childUpdates["/GameState/TurnTime"] = Time.time - turnTime;
         childUpdates["/GameState/WhosTurn"] = turn; // 1 == Human, 0 == Furhat
         if (DiceValue)
@@ -75,8 +75,16 @@ public class GameControl : MonoBehaviour {
     // Update is called once per frame
     public void Update()
     {
-        
-        //save();
+        if (Dice.whosTurn == -1 && !player1.GetComponent<FollowThePath>().moveAllowed)
+        {
+            player1MoveText.gameObject.SetActive(false);
+            player2MoveText.gameObject.SetActive(true);
+        }
+        else if (Dice.whosTurn == 1 && !player2.GetComponent<FollowThePath>().moveAllowed)
+        {
+            player1MoveText.gameObject.SetActive(true);
+            player2MoveText.gameObject.SetActive(false);
+        }
         // NORMAL MOVE CONDITIONS
         // BOB
         if (player1.GetComponent<FollowThePath>().waypointIndex > 
@@ -111,11 +119,12 @@ public class GameControl : MonoBehaviour {
                     turnTime = Time.time;
                 }
                 player1.GetComponent<FollowThePath>().moveAllowed = false;
-                player1MoveText.gameObject.SetActive(false);
-                player2MoveText.gameObject.SetActive(true);
-
+                //player1MoveText.gameObject.SetActive(false);
+                //player2MoveText.gameObject.SetActive(true);
+                
             }
         }
+        
 
         // FURHAT
         if (player2.GetComponent<FollowThePath>().waypointIndex >
@@ -148,8 +157,8 @@ public class GameControl : MonoBehaviour {
                     turnTime = Time.time;
                 }
                 player2.GetComponent<FollowThePath>().moveAllowed = false;
-                player2MoveText.gameObject.SetActive(false);
-                player1MoveText.gameObject.SetActive(true);
+                //player2MoveText.gameObject.SetActive(false);
+                //player1MoveText.gameObject.SetActive(true);
 
             }
         }
@@ -160,7 +169,10 @@ public class GameControl : MonoBehaviour {
         {
             whoWinsTextShadow.gameObject.SetActive(true);
             whoWinsTextShadow.GetComponent<Text>().text = "YOU WIN!";
-            saveGameState(1);
+            if (gameOver == false)
+            {
+                saveGameState(1);
+            }
             gameOver = true;
 
         }
@@ -172,7 +184,10 @@ public class GameControl : MonoBehaviour {
             player1MoveText.gameObject.SetActive(false);
             player2MoveText.gameObject.SetActive(false);
             whoWinsTextShadow.GetComponent<Text>().text = "Furhat Wins";
-            saveGameState(0);
+            if (gameOver == false)
+            {
+                saveGameState(0);
+            }
             gameOver = true;
 
         }

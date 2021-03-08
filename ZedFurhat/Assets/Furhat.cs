@@ -111,7 +111,6 @@ public class Furhat : MonoBehaviour
 
     public static void saveGazePhone()
     {
-        print(Entry);
         if (Entry > 2)
         {
             File.AppendAllText(strFilePath, string.Join(strSeperator,

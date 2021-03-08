@@ -30,7 +30,7 @@ public class Dice : MonoBehaviour {
             return;
         }
         
-        if (args.Snapshot.Child("Pressed").Value.ToString() == "true" && coroutineAllowed && whosTurn == -1)
+        if (!GameControl.gameOver && args.Snapshot.Child("Pressed").Value.ToString() == "true" && coroutineAllowed && whosTurn == -1)
         {   
             saveTrigger();
             StartCoroutine("RollTheDice");

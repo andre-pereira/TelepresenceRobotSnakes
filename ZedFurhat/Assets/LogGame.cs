@@ -53,13 +53,7 @@ public class LogGame : MonoBehaviour
                                                         "Human",
                                                         "Furhat",
                                                         "ifSnake",
-                                                        "ifLadder",
-                                                        "Gaze_x",
-                                                        "Gaze_y",
-                                                        "Gaze_z",
-                                                        "Gaze_roll",
-                                                        "Phone",
-                                                        "PhoneIntensity") + "\n");
+                                                        "ifLadder") + "\n");
             firstEntry = false;
         }
         // To append more lines to the csv file
@@ -76,13 +70,7 @@ public class LogGame : MonoBehaviour
                                                         args.Snapshot.Child("Human").Value,
                                                         args.Snapshot.Child("Furhat").Value,
                                                         args.Snapshot.Child("ifSnake").Value,
-                                                        args.Snapshot.Child("ifLadder").Value,
-                                                        args.Snapshot.Child("Gaze_x").Value,
-                                                        args.Snapshot.Child("Gaze_y").Value,
-                                                        args.Snapshot.Child("Gaze_z").Value,
-                                                        args.Snapshot.Child("Gaze_roll").Value,
-                                                        args.Snapshot.Child("Phone").Value,
-                                                        args.Snapshot.Child("PhoneIntensity").Value) +"\n");
+                                                        args.Snapshot.Child("ifLadder").Value) +"\n");
         }
         
         
