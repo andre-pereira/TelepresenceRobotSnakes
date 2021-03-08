@@ -44,11 +44,13 @@ public class LogGame : MonoBehaviour
             Debug.Log("Generating Headings");
             File.WriteAllText(strFilePath, string.Join(strSeperator,
                                                         "Date",
+                                                        "StartTime",
                                                         "UniversalTime",
                                                         "EntireGameTime",
                                                         "TurnTime",
                                                         "WhosTurn",
                                                         "DiceValue",
+                                                        "Human",
                                                         "Furhat",
                                                         "ifSnake",
                                                         "ifLadder",
@@ -63,15 +65,15 @@ public class LogGame : MonoBehaviour
         // To append more lines to the csv file
         else
         {
-            Debug.Log("Logging Values");
-            Debug.Log(args.Snapshot.Child("ifSnake").Value);
             File.AppendAllText(strFilePath, string.Join(strSeperator,
                                                         args.Snapshot.Child("Date").Value,
+                                                        args.Snapshot.Child("StartTime").Value,
                                                         args.Snapshot.Child("UniversalTime").Value,
                                                         args.Snapshot.Child("EntireGameTime").Value,
                                                         args.Snapshot.Child("TurnTime").Value,
                                                         args.Snapshot.Child("WhosTurn").Value,
                                                         args.Snapshot.Child("DiceValue").Value,
+                                                        args.Snapshot.Child("Human").Value,
                                                         args.Snapshot.Child("Furhat").Value,
                                                         args.Snapshot.Child("ifSnake").Value,
                                                         args.Snapshot.Child("ifLadder").Value,

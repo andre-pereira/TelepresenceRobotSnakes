@@ -5,6 +5,7 @@ ScriptsOnlyBuild:
     - FollowThePath
     - GameControl
     - Restart
+    - StartGameBottom
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.Tilemap.Editor.dll:
@@ -48,27 +49,27 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11234}
+      Script: {instanceID: 11342}
     - Class: 114
-      Script: {instanceID: 11532}
+      Script: {instanceID: 11650}
     - Class: 114
-      Script: {instanceID: 11588}
+      Script: {instanceID: 11706}
     - Class: 114
-      Script: {instanceID: 12284}
+      Script: {instanceID: 12426}
     - Class: 114
-      Script: {instanceID: 12440}
+      Script: {instanceID: 12586}
     - Class: 114
-      Script: {instanceID: 12808}
+      Script: {instanceID: 12972}
     - Class: 114
-      Script: {instanceID: 13000}
+      Script: {instanceID: 13174}
     - Class: 114
-      Script: {instanceID: 13100}
+      Script: {instanceID: 13276}
     - Class: 114
-      Script: {instanceID: 13784}
+      Script: {instanceID: 13978}
     - Class: 114
-      Script: {instanceID: 13920}
+      Script: {instanceID: 14118}
     - Class: 114
-      Script: {instanceID: 14406}
+      Script: {instanceID: 14622}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -78,6 +79,55 @@ ScriptsOnlyBuild:
     - Class: 196
       Script: {instanceID: 0}
     - Class: 212
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
+    Assets/Scenes/StartGame.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 11342}
+    - Class: 114
+      Script: {instanceID: 11630}
+    - Class: 114
+      Script: {instanceID: 11650}
+    - Class: 114
+      Script: {instanceID: 11706}
+    - Class: 114
+      Script: {instanceID: 12426}
+    - Class: 114
+      Script: {instanceID: 13174}
+    - Class: 114
+      Script: {instanceID: 13978}
+    - Class: 114
+      Script: {instanceID: 14622}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
       Script: {instanceID: 0}
     - Class: 213
       Script: {instanceID: 0}
@@ -136,6 +186,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: ActivationTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: StartGameBottom
   - hash:
       serializedVersion: 2
       Hash: aeb62f729c52c814dec86c47dcac1471
@@ -600,5 +656,6 @@ ScriptsOnlyBuild:
     className: PlayableTrack
   platform: 13
   scenePathNames:
+  - Assets/Scenes/StartGame.unity
   - Assets/Scenes/SampleScene.unity
   playerPath: C:/Users/ilian/Unity_Projects/TelepresenceRobotSnakes/SnakesAndLadders/SnakeAndLadders.aab

@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
+  - enabled: 1
+    path: Assets/Scenes/StartGame.unity
+    guid: 85318a07b4555934ab4f731fd1ee8190
+  - enabled: 1
+    path: Assets/Scenes/SnakesAndLadders.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}

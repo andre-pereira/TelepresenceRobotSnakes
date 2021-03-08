@@ -2128,8 +2128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d5ed157083b494e85013bad8fd5e12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeviceNumber: 0
-  audioSource: {fileID: 0}
+  DeviceNumber: 1
+  audioSource: {fileID: 1027195890}
   enableMicSelectionGUI: 1
   micSelectionGUIKey: 109
   micInputVolume: 100
@@ -2615,13 +2615,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1426817561}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee380486cbfa5c340bd01164afa8337a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lipSyncContext: {fileID: 1027195888}
-  FurhatIPAddress: localhost:54321
+  FurhatIPAddress: 192.168.0.106
   ballPosition: {fileID: 555041012}
   zedCamera: {fileID: 627407102}
   lipSyncAnimationPoints:

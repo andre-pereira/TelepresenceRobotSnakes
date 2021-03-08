@@ -7,6 +7,6 @@ public class Restart : MonoBehaviour
 {
     public void restartGame()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("SnakesAndLadders");
     }
 }
